@@ -6,17 +6,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.ipan97.kpexpress.R;
 import com.github.ipan97.kpexpress.model.ApiResponse;
 import com.github.ipan97.kpexpress.model.Product;
 import com.github.ipan97.kpexpress.network.RetrofitHttpClient;
+import com.github.ipan97.kpexpress.ui.activity.AddProductActivity;
 import com.github.ipan97.kpexpress.ui.activity.ProductDetailActivity;
 import com.github.ipan97.kpexpress.ui.adapter.ProductAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,6 +35,12 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.rv_product)
     RecyclerView mRvProduct;
 
+    @BindView(R.id.fab_add_product)
+    FloatingActionButton mFabAddProduct;
+
+    @BindView(R.id.srl_home_layout)
+    SwipeRefreshLayout mSrlHomeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +48,12 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         showProducts();
+
+        mSrlHomeLayout.setOnRefreshListener(this::showProducts);
+
+        mFabAddProduct.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), AddProductActivity.class));
+        });
         return view;
     }
 
@@ -56,15 +70,15 @@ public class HomeFragment extends BaseFragment {
 
                                 Gson gson = new Gson();
                                 String json = gson.toJson(response.body().getData());
-                                Log.d("SUCCESS", json);
                                 List<Product> products = gson.fromJson(json, new TypeToken<List<Product>>() {
                                 }.getType());
 
-                                ProductAdapter productAdapter = new ProductAdapter(products, product -> {
+                                ProductAdapter productAdapter = new ProductAdapter(getActivity(), products, product -> {
                                     showProductDetailActivity(product);
                                 });
                                 mRvProduct.setAdapter(productAdapter);
                             }
+                            mSrlHomeLayout.setRefreshing(false);
                         }
                     }
 

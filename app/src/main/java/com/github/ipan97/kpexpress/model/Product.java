@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  */
 public class Product implements Serializable {
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("name")
     private String name;
@@ -24,11 +24,11 @@ public class Product implements Serializable {
     @SerializedName("description")
     private String description;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
