@@ -6,6 +6,7 @@ import com.github.ipan97.kpexpress.model.RegisterRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -18,4 +19,7 @@ public interface ApiEndpoint {
 
     @POST("api/auth/register")
     Call<ApiResponse> register(@Body RegisterRequest request);
+
+    @GET("api/products")
+    Call<ApiResponse> getProducts();
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/loginParent"
     android:orientation="vertical"
-    tools:context="com.github.ipan97.kpexpress.ui.LoginActivity">
+    tools:context="com.github.ipan97.kpexpress.ui.activity.LoginActivity">
 
     <ScrollView style="@style/parent">
 

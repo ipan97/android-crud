@@ -1,4 +1,4 @@
-package com.github.ipan97.kpexpress.ui;
+package com.github.ipan97.kpexpress.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,6 @@ import com.github.ipan97.kpexpress.data.DataManager;
 import com.github.ipan97.kpexpress.model.ApiResponse;
 import com.github.ipan97.kpexpress.model.LoginRequest;
 import com.github.ipan97.kpexpress.model.LoginResponse;
-import com.github.ipan97.kpexpress.network.ApiEndpoint;
 import com.github.ipan97.kpexpress.network.RetrofitHttpClient;
 import com.google.gson.Gson;
 

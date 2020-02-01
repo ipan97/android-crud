@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitHttpClient {
 
-    private static final String BASE_URL = "http://192.168.1.10/php-native-rest-api/";
+    private static final String BASE_URL = "http://192.168.43.36/php-native-rest-api/";
 
     public static ApiEndpoint client() {
         Retrofit retrofit = new Retrofit.Builder()

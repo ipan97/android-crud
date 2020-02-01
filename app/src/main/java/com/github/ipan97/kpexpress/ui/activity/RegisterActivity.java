@@ -1,4 +1,4 @@
-package com.github.ipan97.kpexpress.ui;
+package com.github.ipan97.kpexpress.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
