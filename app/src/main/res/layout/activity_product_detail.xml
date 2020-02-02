@@ -3,6 +3,9 @@
     android:id="@+id/activity_food"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
     android:background="@android:color/white">
 
     <LinearLayout
@@ -23,15 +26,26 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/title"
+            android:text="@string/product_name"
             android:textColor="@android:color/black"
             android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/product_name"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_description"

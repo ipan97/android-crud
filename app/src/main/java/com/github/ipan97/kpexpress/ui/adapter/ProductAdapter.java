@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ipan97.kpexpress.R;
+import com.github.ipan97.kpexpress.common.Helpers;
 import com.github.ipan97.kpexpress.model.ApiResponse;
 import com.github.ipan97.kpexpress.model.Product;
 import com.github.ipan97.kpexpress.network.RetrofitHttpClient;
@@ -68,6 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 .apply(new RequestOptions().override(350, 550))
                 .into(holder.mIvPhoto);
         holder.mTvName.setText(product.getName());
+        holder.mTvPrice.setText(Helpers.numberFormatIndonesia(product.getPrice()));
         holder.mTvDescription.setText(product.getDescription());
         holder.itemView.setOnClickListener(v -> onClickItemCallback.onClick(products.get(holder.getAdapterPosition())));
 
@@ -102,6 +104,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         TextView mTvName;
         TextView mTvDescription;
+        TextView mTvPrice;
         ImageView mIvPhoto;
         Button mBtnEdit;
         Button mBtnDelete;
@@ -111,6 +114,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             mTvName = itemView.findViewById(R.id.tv_item_name);
             mTvDescription = itemView.findViewById(R.id.tv_item_description);
+            mTvPrice = itemView.findViewById(R.id.tv_item_price);
             mIvPhoto = itemView.findViewById(R.id.iv_item_photo);
             mBtnEdit = itemView.findViewById(R.id.btn_edit);
             mBtnDelete = itemView.findViewById(R.id.btn_delete);

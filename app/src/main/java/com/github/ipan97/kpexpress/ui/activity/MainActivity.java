@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.github.ipan97.kpexpress.R;
-import com.github.ipan97.kpexpress.ui.fragment.AboutFragment;
+import com.github.ipan97.kpexpress.ui.fragment.ProfileFragment;
 import com.github.ipan97.kpexpress.ui.fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.nav_home:
                 return replaceFragment(new HomeFragment());
-            case R.id.nav_about:
-                return replaceFragment(new AboutFragment());
+            case R.id.nav_profile:
+                return replaceFragment(new ProfileFragment());
         }
         return false;
     };

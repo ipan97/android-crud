@@ -11,7 +11,7 @@ import timber.log.Timber;
  */
 public class RetrofitHttpClient {
 
-    public static final String BASE_URL = "http://192.168.43.36/php-native-rest-api/";
+    public static final String BASE_URL = "http://192.168.1.2/php-native-rest-api/";
     public static final String BASE_IMAGE_URL = BASE_URL + "images/";
 
     public static ApiEndpoint client() {

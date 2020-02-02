@@ -16,8 +16,11 @@ import butterknife.ButterKnife;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.tv_title)
-    TextView mTvTitle;
+    @BindView(R.id.tv_name)
+    TextView mTvName;
+
+    @BindView(R.id.tv_price)
+    TextView mTvPrice;
 
     @BindView(R.id.tv_description)
     TextView mTvDescription;
@@ -33,11 +36,16 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String title = bundle.getString("product.title");
+            String name = bundle.getString("product.name");
+            String price = bundle.getString("product.price");
             String description = bundle.getString("product.description");
             String photo = RetrofitHttpClient.BASE_IMAGE_URL + bundle.getString("product.photo");
-            if (title != null) {
-                mTvTitle.setText(title);
+            if (name != null) {
+                mTvName.setText(name);
+            }
+
+            if (price != null) {
+                mTvPrice.setText(price);
             }
 
             if (description != null) {

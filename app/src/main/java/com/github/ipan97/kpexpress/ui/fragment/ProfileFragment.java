@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.ipan97.kpexpress.R;
 
-public class AboutFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,6 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false);
+        return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 }

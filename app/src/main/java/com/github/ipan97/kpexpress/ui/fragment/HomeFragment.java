@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.ipan97.kpexpress.R;
+import com.github.ipan97.kpexpress.common.Helpers;
 import com.github.ipan97.kpexpress.model.ApiResponse;
 import com.github.ipan97.kpexpress.model.Product;
 import com.github.ipan97.kpexpress.network.RetrofitHttpClient;
@@ -115,7 +116,9 @@ public class HomeFragment extends BaseFragment {
 
     private void showProductDetailActivity(Product product) {
         Intent productDetailActivity = new Intent(getActivity(), ProductDetailActivity.class);
-        productDetailActivity.putExtra("product.title", product.getName());
+        productDetailActivity.putExtra("product.id", product.getId());
+        productDetailActivity.putExtra("product.name", product.getName());
+        productDetailActivity.putExtra("product.price", Helpers.numberFormatIndonesia(product.getPrice()));
         productDetailActivity.putExtra("product.description", product.getDescription());
         productDetailActivity.putExtra("product.photo", product.getPhotoUrl());
         startActivity(productDetailActivity);

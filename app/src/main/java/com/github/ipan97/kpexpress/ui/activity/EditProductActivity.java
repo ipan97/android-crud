@@ -2,11 +2,13 @@ package com.github.ipan97.kpexpress.ui.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ipan97.kpexpress.R;
+import com.github.ipan97.kpexpress.model.ApiResponse;
 import com.github.ipan97.kpexpress.network.RetrofitHttpClient;
 
 import java.io.File;
@@ -27,6 +30,9 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditProductActivity extends AppCompatActivity {
 
@@ -60,6 +66,7 @@ public class EditProductActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            String id = bundle.getString("product.id");
             String name = bundle.getString("product.name");
             String description = bundle.getString("product.description");
             String price = bundle.getString("product.price");
@@ -101,6 +108,38 @@ public class EditProductActivity extends AppCompatActivity {
                     );
                 }
             });
+
+            // Submit edit product
+            mBtnSubmit.setOnClickListener(v -> {
+                String textName = mEtName.getText().toString();
+                String textDescription = mEtDescription.getText().toString();
+                String textPrice = mEtPrice.getText().toString();
+
+                if (isValid(textName, textDescription)) {
+                    ProgressDialog dialog = ProgressDialog.show(this, "Loading...", "Wait while loading");
+
+                    RequestBody requestName = RequestBody.create(MediaType.parse("text/plain"), textName);
+                    RequestBody requestDescription = RequestBody.create(MediaType.parse("text/plain"), textDescription);
+                    RequestBody requestPrice = RequestBody.create(MediaType.parse("text/plain"), textPrice);
+                    RetrofitHttpClient.client()
+                            .updateProduct(id, requestName, requestPrice, requestDescription, getPhoto())
+                            .enqueue(new Callback<ApiResponse>() {
+                                @Override
+                                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        dialog.dismiss();
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                                    Log.d("ERROR", t.getMessage(), t);
+                                    dialog.dismiss();
+                                }
+                            });
+                }
+            });
         }
     }
 
@@ -120,12 +159,14 @@ public class EditProductActivity extends AppCompatActivity {
 
 
     private MultipartBody.Part getPhoto() {
-        if (imagePath.getPath() != null) {
+        if (imagePath != null) {
             File file = new File(getRealPathFromURI(imagePath));
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             return MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+        } else {
+            RequestBody file = RequestBody.create(MultipartBody.FORM, "");
+            return MultipartBody.Part.createFormData("photo", "", file);
         }
-        return null;
     }
 
     private boolean isValid(String name, String description) {
