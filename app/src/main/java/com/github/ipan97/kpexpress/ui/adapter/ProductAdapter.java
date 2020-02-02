@@ -8,18 +8,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ipan97.kpexpress.R;
+import com.github.ipan97.kpexpress.model.ApiResponse;
 import com.github.ipan97.kpexpress.model.Product;
 import com.github.ipan97.kpexpress.network.RetrofitHttpClient;
 import com.github.ipan97.kpexpress.ui.activity.EditProductActivity;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * @author Ipan Taupik Rahman.
@@ -30,6 +38,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private OnClickItemCallback onClickItemCallback;
 
+    private OnClickButtonDelete onClickButtonDelete;
+
     private Context mContext;
 
     public ProductAdapter(Context mContext, List<Product> products, OnClickItemCallback onClickItemCallback) {
@@ -38,6 +48,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.onClickItemCallback = onClickItemCallback;
     }
 
+    public void setOnClickButtonDelete(OnClickButtonDelete onClickButtonDelete) {
+        this.onClickButtonDelete = onClickButtonDelete;
+    }
 
     @NonNull
     @Override
@@ -65,6 +78,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             editProductActivity.putExtra("product.description", product.getDescription());
             editProductActivity.putExtra("product.photo", product.getPhotoUrl());
             mContext.startActivity(editProductActivity);
+        });
+
+        holder.mBtnDelete.setOnClickListener(v -> {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(mContext);
+            alertBuilder.setCancelable(true);
+            alertBuilder.setTitle("Delete Product");
+            alertBuilder.setMessage("Are you sure delete ?");
+            alertBuilder.setPositiveButton("Confirm", (dialog, which) -> onClickButtonDelete.onClick(product)).show();
         });
     }
 
@@ -95,6 +116,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public interface OnClickItemCallback {
+        void onClick(Product product);
+    }
+
+    public interface OnClickButtonDelete {
         void onClick(Product product);
     }
 }

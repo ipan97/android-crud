@@ -2,10 +2,12 @@ package com.github.ipan97.kpexpress.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class HomeFragment extends BaseFragment {
 
@@ -49,11 +52,12 @@ public class HomeFragment extends BaseFragment {
 
         showProducts();
 
-        mSrlHomeLayout.setOnRefreshListener(this::showProducts);
-
         mFabAddProduct.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), AddProductActivity.class));
         });
+
+        mSrlHomeLayout.setOnRefreshListener(this::showProducts);
+
         return view;
     }
 
@@ -76,15 +80,35 @@ public class HomeFragment extends BaseFragment {
                                 ProductAdapter productAdapter = new ProductAdapter(getActivity(), products, product -> {
                                     showProductDetailActivity(product);
                                 });
+                                productAdapter.setOnClickButtonDelete(product -> deleteProduct(product));
                                 mRvProduct.setAdapter(productAdapter);
                             }
-                            mSrlHomeLayout.setRefreshing(false);
+                            new Handler().postDelayed(() -> mSrlHomeLayout.setRefreshing(false), 3000);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
                         Log.d("ERROR", t.getMessage(), t);
+                    }
+                });
+    }
+
+    private void deleteProduct(Product product) {
+        RetrofitHttpClient.client().deleteProduct(product.getId())
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getActivity(), "Product success deleted!", Toast.LENGTH_SHORT).show();
+                            showProducts();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        Toast.makeText(getActivity(), "Error delete product!", Toast.LENGTH_SHORT).show();
+                        Timber.e(t, t.getMessage());
                     }
                 });
     }
