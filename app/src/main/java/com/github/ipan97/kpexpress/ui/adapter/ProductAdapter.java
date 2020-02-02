@@ -1,6 +1,7 @@
 package com.github.ipan97.kpexpress.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +86,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             alertBuilder.setCancelable(true);
             alertBuilder.setTitle("Delete Product");
             alertBuilder.setMessage("Are you sure delete ?");
-            alertBuilder.setPositiveButton("Confirm", (dialog, which) -> onClickButtonDelete.onClick(product)).show();
+            alertBuilder.setPositiveButton("Confirm", (dialog, which) -> onClickButtonDelete.onClick(product));
+            alertBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            AlertDialog dialog = alertBuilder.create();
+            dialog.show();
         });
     }
 
